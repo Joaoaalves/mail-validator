@@ -6,14 +6,14 @@ namespace Joaoaalves.MailValidator.Validators
 {
     public sealed class MxMailValidator : IMailValidator
     {
-        public static bool Validate(string mail)
+        public static void Validate(string mail)
         {
             if (string.IsNullOrWhiteSpace(mail))
-                return false;
+                throw new InvalidMailException("Empty or null e-mails are not allowed");
 
             var atIndex = mail.LastIndexOf('@');
             if (atIndex < 0 || atIndex == mail.Length - 1)
-                return false;
+                throw new InvalidMailException("You cant start or finish your email with '@' character");
 
             var domain = mail[(atIndex + 1)..];
 
@@ -22,7 +22,8 @@ namespace Joaoaalves.MailValidator.Validators
                 var lookup = new LookupClient();
                 var result = lookup.Query(domain, QueryType.MX);
 
-                return result.Answers.MxRecords().Any();
+                if (!result.Answers.MxRecords().Any())
+                    throw new InvalidDomainException("No MX Records found for provided e-mail domain.");
             }
             catch (Exception exc)
             {

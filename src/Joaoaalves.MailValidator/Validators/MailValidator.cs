@@ -1,23 +1,18 @@
 using Joaoaalves.MailValidator.Abstractions;
-using Joaoaalves.MailValidator.Exceptions;
 
 namespace Joaoaalves.MailValidator.Validators
 {
     public sealed class MailValidator : IMailValidator
     {
-        public static bool IsValid(string mail, bool validateMX = true, bool validateRegex = true)
+        public static void Validate(string mail, bool validateMX = true, bool validateRegex = true)
         {
-            bool isValid;
-
-            isValid = BuiltInMailValidator.Validate(mail);
+            BuiltInMailValidator.Validate(mail);
 
             if (validateMX)
-                isValid = MxMailValidator.Validate(mail);
+                MxMailValidator.Validate(mail);
 
             if (validateRegex)
-                isValid = RegexMailValidator.Validate(mail);
-
-            return isValid;
+                RegexMailValidator.Validate(mail);
         }
     }
 }

@@ -1,51 +1,61 @@
+using System.Net;
 using System.Text.RegularExpressions;
-using System.Globalization;
-using Joaoaalves.MailValidator.Abstractions;
 using Joaoaalves.MailValidator.Exceptions;
 
 namespace Joaoaalves.MailValidator.Validators
 {
-    public sealed class RegexMailValidator : IMailValidator
+    public class RegexMailValidator
     {
-        // Class Body
-        public static bool Validate(string mail)
+        private static readonly Regex LocalPartRegex = new(
+            @"^((""[^\r\n""]+"")|([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*))$",
+            RegexOptions.Compiled);
+
+        private static readonly Regex DomainRegex = new(
+            @"^(localhost|(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,})$",
+            RegexOptions.Compiled);
+
+        public static void Validate(string? email)
         {
-            try
+            if (string.IsNullOrWhiteSpace(email))
+                throw new InvalidDomainException("Email can't be empty.");
+
+            int atIndex = email.LastIndexOf('@');
+            if (atIndex < 1 || atIndex == email.Length - 1)
+                throw new InvalidDomainException($"Invalid e-mail: {email}");
+
+            string localPart = email.Substring(0, atIndex);
+            string domainPart = email.Substring(atIndex + 1);
+
+            // Local-part
+            if (!LocalPartRegex.IsMatch(localPart))
+                throw new InvalidDomainException($"Invalid local-part: {localPart}");
+
+            if (localPart.IndexOfAny(['\r', '\n']) >= 0)
+                throw new InvalidDomainException($"Local-part contains invalid characters: {localPart}");
+
+            if (domainPart.IndexOfAny(['\r', '\n']) >= 0)
+                throw new InvalidDomainException($"Domain contains invalid characters: {domainPart}");
+
+            // Domain
+            if (domainPart.StartsWith("[") && domainPart.EndsWith("]"))
             {
-                // Normalize the domain
-                mail = Regex.Replace(mail, @"(@)(.+)$", DomainMapper,
-                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
-
-                // Examines the domain part of the email and normalizes it.
-                static string DomainMapper(Match match)
+                string ip = domainPart.Trim('[', ']');
+                if (ip.StartsWith("IPv6:", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Use IdnMapping class to convert Unicode domain names.
-                    var idn = new IdnMapping();
-
-                    // Pull out and process domain name (throws ArgumentException on invalid)
-                    string domainName = idn.GetAscii(match.Groups[2].Value);
-
-                    return match.Groups[1].Value + domainName;
+                    string ipv6 = ip[5..];
+                    if (!IPAddress.TryParse(ipv6, out IPAddress addr) || addr.AddressFamily != System.Net.Sockets.AddressFamily.InterNetworkV6)
+                        throw new InvalidDomainException($"Invalid IPv6: {ip}");
+                }
+                else
+                {
+                    if (!IPAddress.TryParse(ip, out IPAddress addr) || addr.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)
+                        throw new InvalidDomainException($"Invalid IPv4: {ip}");
                 }
             }
-            catch (RegexMatchTimeoutException)
+            else
             {
-                throw new InvalidDomainException("Regex verification timeout.");
-            }
-            catch (ArgumentException exc)
-            {
-                throw new InvalidDomainException(exc.Message);
-            }
-
-            try
-            {
-                return Regex.IsMatch(mail,
-                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
-            }
-            catch (RegexMatchTimeoutException)
-            {
-                throw new InvalidUsernameException("Regex verification timeout.");
+                if (!DomainRegex.IsMatch(domainPart))
+                    throw new InvalidDomainException($"Invalid domain: {domainPart}");
             }
         }
     }

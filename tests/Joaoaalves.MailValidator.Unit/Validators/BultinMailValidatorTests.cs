@@ -1,5 +1,3 @@
-using System;
-using Xunit;
 using Joaoaalves.MailValidator.Exceptions;
 using Joaoaalves.MailValidator.Unit.Helpers;
 using Joaoaalves.MailValidator.Validators;
@@ -21,6 +19,18 @@ namespace Joaoaalves.MailValidator.Unit.Validators
             Assert.True(result);
         }
 
+        /* ===========================
+         * INVALID EMAILS
+         * =========================== */
+
+        [Theory]
+        [MemberData(nameof(EmailTestDataHelper.InvalidAt), MemberType = typeof(EmailTestDataHelper))]
+        public void Validate_Should_Throw_InvalidMailException_For_Invalid_Emails(string email)
+        {
+            Assert.Throws<InvalidMailException>(() =>
+                BuiltInMailValidator.Validate(email)
+            );
+        }
 
         /* ===========================
          * NULL EMAIL
