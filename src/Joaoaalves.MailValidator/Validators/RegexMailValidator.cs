@@ -10,9 +10,6 @@ namespace Joaoaalves.MailValidator.Validators
         // Class Body
         public static bool Validate(string mail)
         {
-            if (string.IsNullOrWhiteSpace(mail))
-                throw new InvalidMailException("Empty e-mail is not allowed");
-
             try
             {
                 // Normalize the domain

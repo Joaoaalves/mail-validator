@@ -9,9 +9,6 @@ namespace Joaoaalves.MailValidator.Validators
         {
             bool isValid;
 
-            if (mail == null)
-                throw new InvalidMailException("Null e-mail");
-
             isValid = BuiltInMailValidator.Validate(mail);
 
             if (validateMX)
