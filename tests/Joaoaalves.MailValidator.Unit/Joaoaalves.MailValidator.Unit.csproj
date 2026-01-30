@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Joaoaalves.MailValidator\Joaoaalves.MailValidator.csproj" />
+  </ItemGroup>
+
 </Project>
