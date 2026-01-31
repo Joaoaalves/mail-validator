@@ -7,6 +7,9 @@ namespace Joaoaalves.MailValidator.Validators
     {
         public static bool Validate(string mail)
         {
+            if (string.IsNullOrWhiteSpace(mail))
+                throw new InvalidMailException("Empty e-mail is not allowed");
+
             var trimmed = mail.Trim();
 
             try

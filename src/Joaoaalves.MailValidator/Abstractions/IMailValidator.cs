@@ -5,9 +5,6 @@ namespace Joaoaalves.MailValidator.Abstractions
     /// </summary>
     public interface IMailValidator
     {
-        static bool Validate(string mail)
-        {
-            return false;
-        }
+        static void Validate(string mail) { }
     }
 }
