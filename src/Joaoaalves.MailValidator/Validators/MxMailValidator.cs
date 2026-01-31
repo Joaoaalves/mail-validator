@@ -6,6 +6,15 @@ namespace Joaoaalves.MailValidator.Validators
 {
     public sealed class MxMailValidator : IMailValidator
     {
+        /// <summary>
+        /// Validates whether the email domain has a valid MX Record.
+        /// Recommended for use only in conjunction with other validators.
+        /// Important: This validator does not guarantee that the account
+        /// actually exists in the domain or that it is deliverable.
+        /// </summary>
+        /// <param name="mail">Email to be validated</param>
+        /// <exception cref="InvalidMailException">InvalidMailException on invalid e-mail.</exception>
+        /// <exception cref="InvalidDomain">InvalidMailException on invalid e-mail domain.</exception>
         public static void Validate(string mail)
         {
             if (string.IsNullOrWhiteSpace(mail))

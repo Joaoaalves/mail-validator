@@ -4,6 +4,7 @@ using Joaoaalves.MailValidator.Exceptions;
 
 namespace Joaoaalves.MailValidator.Validators
 {
+
     public class RegexMailValidator
     {
         private static readonly Regex LocalPartRegex = new(
@@ -14,6 +15,16 @@ namespace Joaoaalves.MailValidator.Validators
             @"^(localhost|(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,})$",
             RegexOptions.Compiled);
 
+        /// <summary>
+        /// Validates emails using Regex with a 250ms timeout. This validator checks
+        /// both the LocalPart and the Domain regex. Recommended for use when emails
+        /// are a critical part of the system. It usually blocks malicious emails,
+        /// but does not check if the domain has an MX record.
+        /// </summary>
+        /// <param name="mail">E-mail to be validated.</param>
+        /// <exception cref="InvalidMailException">InvalidMailException on invalid e-mail.</exception>
+        /// <exception cref="InvalidDomain">InvalidMailException on invalid e-mail domain.</exception>
+        /// <exception cref="InvalidUsernameException">InvalidMailException on invalid e-mail Username.</exception>
         public static void Validate(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -28,7 +39,7 @@ namespace Joaoaalves.MailValidator.Validators
 
             // Local-part
             if (!LocalPartRegex.IsMatch(localPart))
-                throw new InvalidDomainException($"Invalid local-part: {localPart}");
+                throw new InvalidUsernameException($"Invalid local-part: {localPart}");
 
             if (localPart.IndexOfAny(['\r', '\n']) >= 0)
                 throw new InvalidDomainException($"Local-part contains invalid characters: {localPart}");
