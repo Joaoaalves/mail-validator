@@ -43,12 +43,12 @@ namespace Joaoaalves.MailValidator.Validators
                 if (ip.StartsWith("IPv6:", StringComparison.OrdinalIgnoreCase))
                 {
                     string ipv6 = ip[5..];
-                    if (!IPAddress.TryParse(ipv6, out IPAddress addr) || addr.AddressFamily != System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    if (!IPAddress.TryParse(ipv6, out IPAddress? addr) || addr.AddressFamily != System.Net.Sockets.AddressFamily.InterNetworkV6)
                         throw new InvalidDomainException($"Invalid IPv6: {ip}");
                 }
                 else
                 {
-                    if (!IPAddress.TryParse(ip, out IPAddress addr) || addr.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)
+                    if (!IPAddress.TryParse(ip, out IPAddress? addr) || addr.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)
                         throw new InvalidDomainException($"Invalid IPv4: {ip}");
                 }
             }

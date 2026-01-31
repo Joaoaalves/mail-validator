@@ -25,6 +25,7 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "email-with-dash@example.com" ],
             [ "email.with.dots@example.com" ],
             [ "email123@example.com" ],
+            [ "_______@example.com"]
         ];
 
         public static IEnumerable<object[]> ComplexDomainEmails =>
@@ -106,6 +107,10 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "email<>@example.com" ],
             [ "email,comma@example.com" ],
             [ "email:semicolon@example.com" ],
+            [ "”(),:;<>[\\]@example.com"],
+            [ "just”not”right@example.com"],
+            [ "this\\ is\"really\"not\allowed@example.com"],
+            [ "#@%^%#$@#$@#.com"]
         ];
 
         public static IEnumerable<object[]> InvalidDomains =>
@@ -117,6 +122,7 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "email@example-.com" ],
             [ "email@example..com" ],
             [ "email@example_com" ],
+            [ "email@111.222.333.44444"]
         ];
 
         public static IEnumerable<object[]> InvalidTopLevelDomain =>
