@@ -2,7 +2,7 @@ using Joaoaalves.MailValidator.Abstractions;
 
 namespace Joaoaalves.MailValidator.Validators
 {
-    public sealed class MailValidator : IMailValidator
+    public sealed class BaseMailValidator : IMailValidator
     {
         public static void Validate(string mail, bool validateMX = true, bool validateRegex = true)
         {

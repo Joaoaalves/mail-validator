@@ -1,5 +1,6 @@
 using Joaoaalves.MailValidator.Exceptions;
 using Joaoaalves.MailValidator.Unit.Helpers;
+using Joaoaalves.MailValidator.Validators;
 
 namespace Joaoaalves.MailValidator.Unit.Validators
 {
@@ -14,7 +15,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Not_Throw_When_All_Validators_Are_Enabled(string email)
         {
             var exception = Record.Exception(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: true, validateRegex: true));
+                BaseMailValidator.Validate(email, validateMX: true, validateRegex: true));
 
             Assert.Null(exception);
         }
@@ -28,14 +29,14 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Always_Throw_For_BuiltIn_Invalid_Emails(string email)
         {
             Assert.ThrowsAny<Exception>(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: false, validateRegex: false));
+                BaseMailValidator.Validate(email, validateMX: false, validateRegex: false));
         }
 
         [Fact]
         public void Validate_Should_Throw_For_Null_Email_Regardless_Of_Flags()
         {
             Assert.ThrowsAny<Exception>(() =>
-                MailValidator.Validators.MailValidator.Validate(null!, validateMX: false, validateRegex: false));
+                BaseMailValidator.Validate(null!, validateMX: false, validateRegex: false));
         }
 
         /* ===========================
@@ -49,7 +50,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Throw_When_Regex_Is_Enabled(string email)
         {
             Assert.ThrowsAny<InvalidMailException>(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: false, validateRegex: true));
+                BaseMailValidator.Validate(email, validateMX: false, validateRegex: true));
         }
 
 
@@ -62,7 +63,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Throw_When_MX_Is_Enabled(string email)
         {
             Assert.Throws<InvalidDomainException>(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: true, validateRegex: false));
+                BaseMailValidator.Validate(email, validateMX: true, validateRegex: false));
         }
 
         [Theory]
@@ -70,7 +71,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Not_Throw_When_MX_Is_Disabled(string email)
         {
             var exception = Record.Exception(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: false, validateRegex: false));
+                BaseMailValidator.Validate(email, validateMX: false, validateRegex: false));
 
             Assert.Null(exception);
         }
@@ -85,7 +86,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Throw_When_Regex_Is_Enabled_Even_If_MX_Is_Disabled(string email)
         {
             Assert.ThrowsAny<InvalidMailException>(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: false, validateRegex: true));
+                BaseMailValidator.Validate(email, validateMX: false, validateRegex: true));
         }
 
 
@@ -98,7 +99,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Throw_When_Regex_Is_Enabled_For_Malicious_Emails(string email)
         {
             Assert.ThrowsAny<InvalidMailException>(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: false, validateRegex: true));
+                BaseMailValidator.Validate(email, validateMX: false, validateRegex: true));
         }
 
         [Theory]
@@ -106,7 +107,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         public void Validate_Should_Throw_When_Regex_Is_Disabled_For_Malicious_Emails(string email)
         {
             Assert.ThrowsAny<InvalidMailException>(() =>
-                MailValidator.Validators.MailValidator.Validate(email, validateMX: false, validateRegex: false));
+                BaseMailValidator.Validate(email, validateMX: false, validateRegex: false));
         }
     }
 }
