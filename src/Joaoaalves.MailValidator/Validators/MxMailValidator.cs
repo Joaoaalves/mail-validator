@@ -22,12 +22,26 @@ namespace Joaoaalves.MailValidator.Validators
                 var lookup = new LookupClient();
                 var result = lookup.Query(domain, QueryType.MX);
 
-                if (!result.Answers.MxRecords().Any())
+                var mxRecords = result.Answers.MxRecords();
+
+                if (!mxRecords.Any())
                     throw new InvalidDomainException("No MX Records found for provided e-mail domain.");
+
+                var hasValidMx = mxRecords.Any(mx =>
+                    !string.IsNullOrWhiteSpace(mx.Exchange.Value) &&
+                    mx.Exchange.Value != "."
+                );
+
+                if (!hasValidMx)
+                    throw new InvalidDomainException("Domain does not accept e-mail (Null MX).");
             }
-            catch (Exception exc)
+            catch (DnsResponseException)
             {
-                throw new InvalidDomainException(exc.Message);
+                throw new InvalidDomainException("Domain does not exist.");
+            }
+            catch (Exception)
+            {
+                throw new InvalidDomainException("Could not validate domain MX records.");
             }
         }
     }

@@ -67,6 +67,25 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "user@[IPv6:2001:db8::1]" ],
         ];
 
+        public static IEnumerable<object[]> ValidMxEmails =>
+        [
+            [ "user@gmail.com" ],
+            [ "firstname.lastname@gmail.com" ],
+            [ "user+tag@gmail.com" ],
+
+            [ "user@outlook.com" ],
+            [ "user@hotmail.com" ],
+
+            [ "user@yahoo.com" ],
+
+            [ "user@icloud.com" ],
+
+            [ "user@proton.me" ],
+            [ "user@protonmail.com" ],
+
+            [ "user@zoho.com" ]
+        ];
+
         public static IEnumerable<object[]> ValidEmails =>
             ConcatAll(
                 BasicValidEmails,
@@ -76,7 +95,8 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
                 ComplexValidUsernameEmails,
                 RFCValidEmails,
                 RFCLocalDomainEmails,
-                IpLiteralEmails
+                IpLiteralEmails,
+                ValidMxEmails
             );
 
         /* ===========================
@@ -157,6 +177,17 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "email@example.com<script>" ],
             [ "email\rexample@example.com" ],
             [ "email\n@example.com" ],
+        ];
+
+        public static IEnumerable<object[]> InvalidMxDomains =>
+        [
+            // Invalid Domains
+            [ "user@thisdomaindoesnotexist123456.com" ],
+            [ "user@abcdef-ghijklmnop-xyz.com" ],
+
+            // Valid Domains, without MX
+            [ "user@localhost" ],
+            [ "user@example.com" ]
         ];
 
         public static IEnumerable<object[]> InvalidEmails =>
