@@ -10,4 +10,18 @@
     <PackageReference Include="DnsClient" Version="1.8.0" />
   </ItemGroup>
 
+
+    <PropertyGroup>
+      <PackageId>Joaoaalves.MailValidator</PackageId>
+      <Version>0.0.1</Version>
+      <Authors>João Alves</Authors>
+      <Company>João Alves</Company>
+      <Description>Adds e-mail validators</Description>
+      <PackageTags>Mail;Validation;E-mail</PackageTags>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+      <RepositoryUrl>https://github.com/Joaoaalves/mail-validator</RepositoryUrl>
+      <PackageProjectUrl>https://github.com/Joaoaalves/mail-validator</PackageProjectUrl>
+      <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
 </Project>
