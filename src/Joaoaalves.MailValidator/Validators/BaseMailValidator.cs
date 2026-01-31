@@ -11,7 +11,7 @@ namespace Joaoaalves.MailValidator.Validators
         /// <param name="mail">Email to be validated</param>
         /// <exception cref="InvalidMailException">InvalidMailException on invalid e-mail.</exception>
         /// <exception cref="InvalidDomain">InvalidMailException on invalid e-mail domain.</exception>
-        /// <exception cref="InvalidUsernameException">InvalidMailException on invalid e-mail Username.</exception>
+        /// <exception cref="InvalidLocalPartException">InvalidMailException on invalid e-mail Username.</exception>
         public static void Validate(string mail)
         {
             Validate(mail, true, true, 100);
@@ -27,7 +27,7 @@ namespace Joaoaalves.MailValidator.Validators
         /// <param name="regexTimeoutMS">Set the time in MS to Regex verifications Timeout.</param>
         /// <exception cref="InvalidMailException">InvalidMailException on invalid e-mail.</exception>
         /// <exception cref="InvalidDomain">InvalidMailException on invalid e-mail domain.</exception>
-        /// <exception cref="InvalidUsernameException">InvalidMailException on invalid e-mail Username.</exception>
+        /// <exception cref="InvalidLocalPartException">InvalidMailException on invalid e-mail Username.</exception>
         public static void Validate(string mail, bool validateMX = true, bool validateRegex = true, double regexTimeoutMS = 50)
         {
             BuiltInMailValidator.Validate(mail);

@@ -118,7 +118,7 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "email@ex@ample.com" ],
         ];
 
-        public static IEnumerable<object[]> InvalidUsername =>
+        public static IEnumerable<object[]> InvalidLocalPart =>
         [
             [ ".email@example.com" ],
             [ "email.@example.com" ],
@@ -199,7 +199,7 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             ConcatAll(
                 EmptyEmails,
                 InvalidAt,
-                InvalidUsername,
+                InvalidLocalPart,
                 InvalidDomains,
                 InvalidTopLevelDomain,
                 InvalidSpacesEmails,

@@ -23,7 +23,7 @@ namespace Joaoaalves.MailValidator.Validators
         /// <param name="timeoutMS">Timeout time in Mili.</param>
         /// <exception cref="InvalidMailException">InvalidMailException on invalid e-mail.</exception>
         /// <exception cref="InvalidDomain">InvalidMailException on invalid e-mail domain.</exception>
-        /// <exception cref="InvalidUsernameException">InvalidMailException on invalid e-mail Username.</exception>
+        /// <exception cref="InvalidLocalPartException">InvalidMailException on invalid e-mail Username.</exception>
 
         public static void Validate(string? email, double timeoutMS = 250)
         {
@@ -53,7 +53,7 @@ namespace Joaoaalves.MailValidator.Validators
 
                 // Local-part
                 if (!localPartRegex.IsMatch(localPart))
-                    throw new InvalidUsernameException($"Invalid local-part: {localPart}");
+                    throw new InvalidLocalPartException($"Invalid local-part: {localPart}");
 
                 if (localPart.IndexOfAny(['\r', '\n']) >= 0)
                     throw new InvalidDomainException($"Local-part contains invalid characters: {localPart}");
@@ -100,7 +100,7 @@ namespace Joaoaalves.MailValidator.Validators
         /// <param name="mail">E-mail to be validated.</param>
         /// <exception cref="InvalidMailException">InvalidMailException on invalid e-mail.</exception>
         /// <exception cref="InvalidDomain">InvalidMailException on invalid e-mail domain.</exception>
-        /// <exception cref="InvalidUsernameException">InvalidMailException on invalid e-mail Username.</exception>
+        /// <exception cref="InvalidLocalPartException">InvalidMailException on invalid e-mail Username.</exception>
 
         public static void Validate(string? email)
         {

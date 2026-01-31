@@ -104,7 +104,7 @@ catch (InvalidDomainException ex)
 {
     // Invalid or non-existent domain
 }
-catch (InvalidUsernameException ex)
+catch (InvalidLocalPartException ex)
 {
     // Invalid local-part
 }

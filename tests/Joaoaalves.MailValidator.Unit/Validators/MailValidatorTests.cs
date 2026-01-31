@@ -44,7 +44,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
          * =========================== */
 
         [Theory]
-        [MemberData(nameof(EmailTestDataHelper.InvalidUsername), MemberType = typeof(EmailTestDataHelper))]
+        [MemberData(nameof(EmailTestDataHelper.InvalidLocalPart), MemberType = typeof(EmailTestDataHelper))]
         [MemberData(nameof(EmailTestDataHelper.InvalidSpacesEmails), MemberType = typeof(EmailTestDataHelper))]
         [MemberData(nameof(EmailTestDataHelper.InvalidCharsEmails), MemberType = typeof(EmailTestDataHelper))]
         public void Validate_Should_Throw_When_Regex_Is_Enabled(string email)

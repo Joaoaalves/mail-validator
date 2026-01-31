@@ -13,7 +13,7 @@ Validation either succeeds or fails.
 
 InvalidMailException
 ├── InvalidDomainException
-└── InvalidUsernameException
+└── InvalidLocalPartException
 
 ```
 
@@ -38,9 +38,9 @@ Thrown when:
 
 ---
 
-## InvalidUsernameException
+## InvalidLocalPartException
 
-Thrown when the local-part (username) of the e-mail is invalid.
+Thrown when the local-part of the e-mail is invalid.
 
 This includes:
 
