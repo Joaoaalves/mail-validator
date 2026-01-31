@@ -177,6 +177,11 @@ namespace Joaoaalves.MailValidator.Unit.Helpers
             [ "email@example.com<script>" ],
             [ "email\rexample@example.com" ],
             [ "email\n@example.com" ],
+
+        ];
+
+        public static IEnumerable<object[]> ReDOSEmail => [
+            ["a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a@example.com"]
         ];
 
         public static IEnumerable<object[]> InvalidMxDomains =>

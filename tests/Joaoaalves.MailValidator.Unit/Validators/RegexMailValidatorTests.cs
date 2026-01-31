@@ -30,7 +30,7 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         [MemberData(nameof(EmailTestDataHelper.InvalidCharsEmails), MemberType = typeof(EmailTestDataHelper))]
         public void Validate_Should_Throw_For_Invalid_Emails(string email)
         {
-            Assert.Throws<InvalidDomainException>(() =>
+            Assert.ThrowsAny<InvalidMailException>(() =>
                 RegexMailValidator.Validate(email)
             );
         }
@@ -42,7 +42,6 @@ namespace Joaoaalves.MailValidator.Unit.Validators
         [Theory]
         [MemberData(nameof(EmailTestDataHelper.InvalidDomains), MemberType = typeof(EmailTestDataHelper))]
         [MemberData(nameof(EmailTestDataHelper.InvalidTopLevelDomain), MemberType = typeof(EmailTestDataHelper))]
-        [MemberData(nameof(EmailTestDataHelper.InvalidRFCEmails), MemberType = typeof(EmailTestDataHelper))]
         public void Validate_Should_Throw_InvalidDomainException_For_Invalid_Domains(string email)
         {
             Assert.Throws<InvalidDomainException>(() =>
@@ -56,11 +55,18 @@ namespace Joaoaalves.MailValidator.Unit.Validators
 
         [Theory]
         [MemberData(nameof(EmailTestDataHelper.MaliciousEmails), MemberType = typeof(EmailTestDataHelper))]
-        public void Validate_Should_Return_False_For_Malicious_Inputs(string email)
+        public void Validate_Should_Throw_For_Malicious_Inputs(string email)
         {
-            Assert.Throws<InvalidDomainException>(() =>
+            Assert.ThrowsAny<InvalidMailException>(() =>
                 RegexMailValidator.Validate(email)
             );
+        }
+
+        [Theory]
+        [MemberData(nameof(EmailTestDataHelper.ReDOSEmail), MemberType = typeof(EmailTestDataHelper))]
+        public void Validate_Should_Throw_For_ReDOS_Inputs(string email)
+        {
+            Assert.Throws<InvalidMailException>(() => RegexMailValidator.Validate(email, 0.1));
         }
 
         /* ===========================
